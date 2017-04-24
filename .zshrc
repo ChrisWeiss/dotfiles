@@ -45,4 +45,4 @@ if [[ $OSTYPE == darwin* ]]; then
 ;fi
 
 [ -f ~/.zshrc-local ] && source ~/.zshrc-local
-alias config='/usr/bin/git --git-dir=/Users/cweiss/.cfg/ --work-tree=/Users/cweiss'
+alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
