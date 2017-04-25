@@ -3,85 +3,47 @@ if filereadable(expand("~/.vimrc.pre"))
   source ~/.vimrc.pre
 endif
 
-set nocompatible              " be iMproved, required
-filetype off                  " required
+"NeoBundle Scripts-----------------------------
+if has('vim_starting')
+  set nocompatible               " Be iMproved
 
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
+  " Required:
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
 
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
+" Required:
+call neobundle#begin(expand('~/.vim/bundle'))
 
-" The following are examples of different formats supported.
-" Keep Plugin commands between vundle#begin/end.
+" Let NeoBundle manage NeoBundle
+" Required:
+NeoBundleFetch 'Shougo/neobundle.vim'
 
-  Plugin 'Valloric/YouCompleteMe'
-	Plugin 'jistr/vim-nerdtree-tabs'
-  Plugin 'scrooloose/nerdtree'
-  Plugin 'scrooloose/nerdcommenter'
-  Plugin 'mileszs/ack.vim'
-  Plugin 'rizzatti/dash.vim'
-	Plugin 'Yggdroot/indentLine'
-  Plugin 'airblade/vim-gitgutter'
-"  Plugin 'altercation/vim-colors-solarized'
-  Plugin 'bling/vim-airline'
-  Plugin 'edkolev/tmuxline.vim'
-  Plugin 'godlygeek/tabular'
-"  Plugin 'rodjek/vim-puppet'
-"  Plugin 'scrooloose/syntastic'
-  Plugin 'tpope/vim-fugitive'
-  Plugin 'tpope/vim-markdown'
-  Plugin 'jnurmine/Zenburn'
-  Plugin 'tpope/vim-sensible'
-  Plugin 'tpope/vim-commentary'
-  Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
-  Plugin 'tmhedberg/SimpylFold'
-  Plugin 'vim-scripts/indentpython.vim'
-	Plugin 'nvie/vim-flake8'
-	Plugin 'w0rp/ale'
-	Plugin 'klen/python-mode'
+  NeoBundle 'Valloric/YouCompleteMe'
+  NeoBundle 'scrooloose/nerdtree'
+  NeoBundle 'rizzatti/dash.vim'
+  NeoBundle 'airblade/vim-gitgutter'
+  NeoBundle 'altercation/vim-colors-solarized'
+  NeoBundle 'bling/vim-airline'
+  NeoBundle 'edkolev/tmuxline.vim'
+  NeoBundle 'godlygeek/tabular'
+  NeoBundle 'rodjek/vim-puppet'
+  NeoBundle 'scrooloose/syntastic'
+  NeoBundle 'tpope/vim-fugitive'
+  NeoBundle 'tpope/vim-markdown'
+  NeoBundle 'jnurmine/Zenburn'
+  NeoBundle 'tpope/vim-sensible'
+  NeoBundle 'tpope/vim-commentary'
 
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
+" load the plugin and indent settings for the detected filetype
+call neobundle#end()
+
+filetype plugin indent on
+
+NeoBundleCheck
 
 " set number
 set ruler
 syntax on
-
-" Syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-" Linters
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_dockerfile_checkers = ['hadolint']
-
-" ALE
-let g:ale_linters = {'py': 'all'}
-let g:ale_linters = {'dockerfile': 'all'}
-let g:ale_linters = {'ansible': 'all'}
-let g:ale_linters = {'yml': 'all'}
 
 let mapleader = ","
 
@@ -98,49 +60,11 @@ set softtabstop=2
 set expandtab
 set list listchars=tab:\ \ ,trail:·
 
-set paste
-
-" Python colorizing
-let python_highlight_all=1
-syntax on
-
-" Show bad whitespace
-highlight BadWhitespace ctermbg=red guibg=darkred
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-"python with virtualenv support
-py << EOF
-import os
-import sys
-if 'VIRTUAL_ENV' in os.environ:
-  project_base_dir = os.environ['VIRTUAL_ENV']
-  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
-  execfile(activate_this, dict(__file__=activate_this))
-EOF
-
 " Searching
 set hlsearch
 set incsearch
 set ignorecase
 set smartcase
-
-" Code folding
-set foldmethod=indent
-set foldlevel=99
-
-" PEP8 Standards
-au BufNewFile,BufRead *.py
-    \ set tabstop=4 |
-    \ set softtabstop=4 |
-    \ set shiftwidth=4 |
-    \ set textwidth=79 |
-    \ set expandtab |
-    \ set autoindent |
-    \ set fileformat=unix |
-
-"line numbers
-set nu
-
 
 " Tab completion
 set wildmode=list:longest,list:full
@@ -283,7 +207,6 @@ if filereadable(expand("~/.vimrc.local"))
   source ~/.vimrc.local
 endif
 
-let g:ale_linters = { 'python': ['flake8'], }
 
 function! s:ExecuteInShell(command)
     let command = join(map(split(a:command), 'expand(v:val)'))
