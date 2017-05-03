@@ -285,6 +285,9 @@ endif
 
 let g:ale_linters = { 'python': ['flake8'], }
 
+" Open NERDTree if VIM was called w/out any args
+autocmd VimEnter * if !argc() | NERDTree | endif
+
 function! s:ExecuteInShell(command)
     let command = join(map(split(a:command), 'expand(v:val)'))
     let winnr = bufwinnr('^' . command . '$')

@@ -18,10 +18,6 @@ setopt inc_append_history extendedglob share_history
 
 alias tma='tmux attach -d -t'
 
-function git_prompt_info() {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
-}
 
 
 
@@ -35,6 +31,11 @@ if [[ $OSTYPE == darwin* ]]; then
 
     # Fix for slow prompt due to slow xcode git parse_git_dirty implementation
     # from http://marc-abramowitz.com/archives/2012/04/10/fix-for-oh-my-zsh-git-svn-prompt-slowness/
+
+    function git_prompt_info() {
+      ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+      echo "$ZSH_THEME_GIT_PROMPT_PREFIX${ref#refs/heads/}$ZSH_THEME_GIT_PROMPT_SUFFIX"
+    }
 
     alias locate='mdfind -name'
 
