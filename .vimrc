@@ -33,6 +33,7 @@ NeoBundleFetch 'Shougo/neobundle.vim'
   NeoBundle 'jnurmine/Zenburn'
   NeoBundle 'tpope/vim-sensible'
   NeoBundle 'tpope/vim-commentary'
+  NeoBundle 'mako.vim'
 
 " load the plugin and indent settings for the detected filetype
 call neobundle#end()
