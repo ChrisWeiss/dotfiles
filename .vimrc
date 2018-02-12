@@ -18,7 +18,7 @@ call neobundle#begin(expand('~/.vim/bundle'))
 " Required:
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-  NeoBundle 'Valloric/YouCompleteMe'
+"  NeoBundle 'Valloric/YouCompleteMe'
   NeoBundle 'scrooloose/nerdtree'
   NeoBundle 'rizzatti/dash.vim'
   NeoBundle 'airblade/vim-gitgutter'
