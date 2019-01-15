@@ -56,6 +56,7 @@ export ANSIBLE_STDOUT_CALLBACK=debug
 [ -f /usr/local/bin/prettyping ] && alias ping='prettyping --nolegend'
 [ -f /usr/local/bin/bat ] && alias cat='bat'
 
+if [[ -f ~/.fzf.zsh ]]; then
 # f [FUZZY PATTERN] - Open the selected file with the default editor
 #   - Bypass fuzzy finder if there's only one match (--select-1)
 #   - Exit if there's no match (--exit-0)
@@ -65,3 +66,11 @@ f() {
   [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
 }
 
+fbr() {
+  local branches branch
+  branches=$(git branch -vv) &&
+  branch=$(echo "$branches" | fzf +m) &&
+  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+}
+
+;fi
