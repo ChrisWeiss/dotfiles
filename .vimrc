@@ -232,3 +232,10 @@ function! s:ExecuteInShell(command)
 endfunction
     command! -complete=shellcmd -nargs=+ Shell call s:ExecuteInShell(<q-args>)
     noremap <leader>! :Shell
+
+" Unlimited persistent undo but clear out older than 90 days
+set undofile
+set undodir=~/.vim/undodir
+let s:undos = split(globpath(&undodir, '*'), "\n")
+call filter(s:undos, 'getftime(v:val) < localtime() - (60 * 60 * 24 * 90)')
+call map(s:undos, 'delete(v:val)')
