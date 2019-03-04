@@ -1,8 +1,12 @@
 ZSH=$HOME/.oh-my-zsh
 
-ZSH_THEME="smt"
+# This installs the spaceship theme for zsh
+# https://github.com/denysdovhan/spaceship-prompt
+[ ! -d "$ZSH/custom/themes/spaceship-prompt" ] && git clone https://github.com/denysdovhan/spaceship-prompt.git "$ZSH/custom/themes/spaceship-prompt" && ln -s "$ZSH/custom/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH/custom/themes/spaceship.zsh-theme"
 
-plugins=(k docker git sublime osx per-directory-history jira vagrant zsh-autosuggestions vi-mode autojump history pip python fast-syntax-highlighting )
+ZSH_THEME="spaceship"
+
+plugins=(k docker git osx per-directory-history vagrant zsh-autosuggestions vi-mode autojump history pip python fast-syntax-highlighting )
 
 source $ZSH/oh-my-zsh.sh
 
@@ -16,6 +20,12 @@ SAVEHIST=10000
 setopt hist_ignore_all_dups
 setopt inc_append_history extendedglob share_history
 export HISTIGNORE=" *:ls:cd:cd -:pwd:exit:date:* --help:* -h"
+
+# A little verbosity
+alias cp='cp -iv'
+alias mv='mv -iv'
+alias rmdir='rmdir -v'
+alias ln='ln -v'
 
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
@@ -42,16 +52,19 @@ if [[ $OSTYPE == darwin* ]]; then
 
 ;fi
 
+# For dotfiles management
 [ -f ~/.zshrc-local ] && source ~/.zshrc-local
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 [ -f ~/.password ] && export ANSIBLE_VAULT_PASSWORD_FILE=/Users/cweiss/.password
 
-# human-readable stdout/stderr results display
+# Ansible human-readable stdout/stderr results display
 export ANSIBLE_STDOUT_CALLBACK=debug
 
+# SDKMan
 [ -f $HOME/.sdkman/bin/sdkman-init.sh ] && source $HOME/.sdkman/bin/sdkman-init.sh
 
+# FZF
 [ -f ~/.fzf.zsh ] && export FZF_DEFAULT_OPTS='--height 10% --layout=reverse' && source ~/.fzf.zsh
 [ -f /usr/local/bin/prettyping ] && alias ping='prettyping --nolegend'
 [ -f /usr/local/bin/bat ] && alias cat='bat'
@@ -72,5 +85,7 @@ fbr() {
   branch=$(echo "$branches" | fzf +m) &&
   git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
 }
-
 ;fi
+
+# TMUX Setup
+[[ -d ~/.tmux && ! -d ~/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
