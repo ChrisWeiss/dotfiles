@@ -9,6 +9,12 @@ if !has('nvim')
   set ttymouse=xterm2
 endif
 
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 set t_Co=256
 let g:solarized_termcolors=256
 set ttyfast                 " Faster redrawing
@@ -27,42 +33,25 @@ inoremap <Down>  <NOP>
 inoremap <Left>  <NOP>
 inoremap <Right> <NOP>
 
-"NeoBundle Scripts-----------------------------
-if has('vim_starting')
-  set nocompatible               " Be iMproved
-  " Required:
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
+call plug#begin('~/.vim/plugged')
 
-" Required:
-call neobundle#begin(expand('~/.vim/bundle'))
+  Plug 'sheerun/vim-polyglot'  " Multiple language syntax highlighting
+  Plug 'w0rp/ale'              " Asyncronous Linting/fixing
+  Plug 'scrooloose/nerdtree'   " File browser :help nerdtree
+  Plug 'rizzatti/dash.vim'     " Search Dash app from vim :help dash
+  Plug 'airblade/vim-gitgutter'  " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
+  Plug 'altercation/vim-colors-solarized' " Solarized color scheme
+  Plug 'vim-airline/vim-airline'	" Lean & mean status/tabline for vim that's light as air.
+  Plug 'vim-airline/vim-airline-themes'	" Themes for Airline
+  Plug 'edkolev/tmuxline.vim'  " Simple tmux statusline generator with support for powerline symbols and statusline / airline / lightline integration
+  Plug 'godlygeek/tabular'     " Script for text filtering and alignment :help tabular
+  Plug 'vim-syntastic/syntastic' " syntax highlighting engine :help syntastic
+  Plug 'tpope/vim-fugitive'    " Git commands :help fugitive
+  Plug 'tpope/vim-sensible'    " Sensible defaults for VIM
+  Plug 'tpope/vim-commentary'  " Bulk comment-out support :help commentary
+  Plug 'junegunn/fzf'          " Fuzzy Finder
 
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-  NeoBundle 'sheerun/vim-polyglot'  " Multiple language syntax highlighting
-  NeoBundle 'w0rp/ale'              " Asyncronous Linting/fixing
-  NeoBundle 'scrooloose/nerdtree'   " File browser :help nerdtree
-  NeoBundle 'rizzatti/dash.vim'     " Search Dash app from vim :help dash
-  NeoBundle 'airblade/vim-gitgutter'  " A Vim plugin which shows a git diff in the gutter (sign column) and stages/undoes hunks.
-  NeoBundle 'altercation/vim-colors-solarized' " Solarized color scheme
-  NeoBundle 'vim-airline/vim-airline'	" Lean & mean status/tabline for vim that's light as air.
-  NeoBundle 'vim-airline/vim-airline-themes'	" Themes for Airline
-  NeoBundle 'edkolev/tmuxline.vim'  " Simple tmux statusline generator with support for powerline symbols and statusline / airline / lightline integration
-  NeoBundle 'godlygeek/tabular'     " Script for text filtering and alignment :help tabular
-  NeoBundle 'vim-syntastic/syntastic' " syntax highlighting engine :help syntastic
-  NeoBundle 'tpope/vim-fugitive'    " Git commands :help fugitive
-  NeoBundle 'tpope/vim-sensible'    " Sensible defaults for VIM
-  NeoBundle 'tpope/vim-commentary'  " Bulk comment-out support :help commentary
-  NeoBundle 'junegunn/fzf'          " Fuzzy Finder
-
-" load the plugin and indent settings for the detected filetype
-call neobundle#end()
-
-filetype plugin indent on
-
-NeoBundleCheck
+call plug#end()
 
 " fix files on save
 let g:ale_fix_on_save = 1
@@ -193,4 +182,3 @@ endif
 
 " Open NERDTree if VIM was called w/out any args
 autocmd VimEnter * if !argc() | NERDTree | endif
-
