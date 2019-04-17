@@ -27,6 +27,10 @@ alias mv='mv -iv'
 alias rmdir='rmdir -v'
 alias ln='ln -v'
 
+alias vim='nvim'
+export VISUAL='nvim -f'
+export EDITOR='mvim -f'
+
 export PATH=/usr/local/sbin:/usr/local/bin:$PATH
 
 if [[ $OSTYPE == darwin* ]]; then
@@ -44,12 +48,6 @@ if [[ $OSTYPE == darwin* ]]; then
     }
 
     alias locate='mdfind -name'
-
-    # Set MacVim to not fork when invoked as default.
-    export VISUAL='mvim -f'
-    export EDITOR='mvim -f'
-
-
 ;fi
 
 # For dotfiles management
@@ -89,3 +87,5 @@ fbr() {
 
 # TMUX Setup
 [[ -d ~/.tmux && ! -d ~/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"

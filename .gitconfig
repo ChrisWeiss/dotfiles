@@ -3,22 +3,25 @@
 	email = Chris.Weiss@nike.com
 [core]
 	excludesfile = /Users/cweiss/.gitignore_global
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
+	autocrlf = input
 [alias]
       lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 	tree = log --oneline --decorate --all --graph
 [diff]
-	tool = bc3
-[difftool "bc3"]
+	tool = bc4
+[difftool "bc4"]
 	trustExitCode = true
 [merge]
-	tool = bc3
-[mergetool "bc3"]
+	tool = bc4
+[mergetool "bc4"]
 	trustExitCode = true
 [color]
 	ui = true
+[commit]
+	template = /Users/cweiss/.stCommitMsg
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true

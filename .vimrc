@@ -5,7 +5,7 @@ endif
 
 let mapleader = ","
 
-if !has('nvim')
+if (!has('nvim'))
   set ttymouse=xterm2
 endif
 
@@ -15,6 +15,8 @@ if empty(glob('~/.vim/autoload/plug.vim'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
 
+set encoding=utf-8          " The encoding displayed
+set fileencoding=utf-8      " The encoding written to file
 set t_Co=256
 let g:solarized_termcolors=256
 set ttyfast                 " Faster redrawing
@@ -35,6 +37,7 @@ inoremap <Right> <NOP>
 
 call plug#begin('~/.vim/plugged')
 
+  Plug 'neomake/neomake'       " Asyncronous activities
   Plug 'sheerun/vim-polyglot'  " Multiple language syntax highlighting
   Plug 'w0rp/ale'              " Asyncronous Linting/fixing
   Plug 'scrooloose/nerdtree'   " File browser :help nerdtree
@@ -50,6 +53,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-sensible'    " Sensible defaults for VIM
   Plug 'tpope/vim-commentary'  " Bulk comment-out support :help commentary
   Plug 'junegunn/fzf'          " Fuzzy Finder
+  Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
 
 call plug#end()
 
@@ -59,10 +63,6 @@ let g:ale_fix_on_save = 1
 " lint after 1000ms after changes are made both on insert mode and normal mode
 let g:ale_lint_on_text_changed = 'always'
 let g:ale_lint_delay = 1000
-
-" use emojis for errors and warnings
-let g:ale_sign_error = '✗\ '
-let g:ale_sign_warning = '⚠\ '
 
 " fixer configurations
 let g:ale_fixers = {
@@ -182,3 +182,15 @@ endif
 
 " Open NERDTree if VIM was called w/out any args
 autocmd VimEnter * if !argc() | NERDTree | endif
+
+" use <tab> for trigger completion and navigate to next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()
+
