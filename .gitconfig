@@ -1,6 +1,3 @@
-[user]
-	name = Weiss, Chris
-	email = Chris.Weiss@nike.com
 [core]
 	excludesfile = /Users/cweiss/.gitignore_global
 	autocrlf = input
@@ -18,7 +15,7 @@
 [color]
 	ui = true
 [commit]
-	template = /Users/cweiss/.stCommitMsg
+	template = /Users/cweiss/.git-commit-template.txt
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
