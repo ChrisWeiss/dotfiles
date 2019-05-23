@@ -15,7 +15,7 @@
 [color]
 	ui = true
 [commit]
-	template = ~/.git-commit-template.txt
+	template = ~/.git_commit_template.txt
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
