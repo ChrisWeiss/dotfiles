@@ -1,8 +1,8 @@
 [core]
-	excludesfile = /Users/cweiss/.gitignore_global
+	excludesfile = ~/.gitignore_global
 	autocrlf = input
 [alias]
-      lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 	tree = log --oneline --decorate --all --graph
 [diff]
 	tool = bc4
@@ -15,10 +15,12 @@
 [color]
 	ui = true
 [commit]
-	template = /Users/cweiss/.git-commit-template.txt
+	template = ~/.git-commit-template.txt
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [mergetool "sourcetree"]
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[include]
+  path = ~/.gitconfig_local
