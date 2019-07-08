@@ -1,4 +1,4 @@
-export ANTIGEN_LOG=~/antigen.log
+export ANTIGEN_LOG=~/antigen_error.log
 ZSH=$HOME/.oh-my-zsh
 source ~/.antigen.zsh
 antigen use oh-my-zsh
