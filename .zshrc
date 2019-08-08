@@ -76,6 +76,13 @@ if [[ $OSTYPE == darwin* ]]; then
     alias locate='mdfind -name'
 ;fi
 
+
+if [[ $OSTYPE == linux-gnu ]]; then
+    [[ -s /home/cweiss/.autojump/etc/profile.d/autojump.sh ]] && source /home/cweiss/.autojump/etc/profile.d/autojump.sh
+    autoload -U compinit && compinit -u
+
+;fi
+
 # For dotfiles management
 [ -f ~/.zshrc-local ] && source ~/.zshrc-local
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
@@ -119,3 +126,4 @@ fbr() {
 [[ -d ~/.tmux && ! -d ~/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
