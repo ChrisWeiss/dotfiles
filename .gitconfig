@@ -4,23 +4,11 @@
 [alias]
   lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
 	tree = log --oneline --decorate --all --graph
-[diff]
-	tool = bc4
-[difftool "bc4"]
-	trustExitCode = true
-[merge]
-	tool = bc4
-[mergetool "bc4"]
-	trustExitCode = true
 [color]
 	ui = true
 [commit]
 	template = ~/.git_commit_template.txt
-[difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
-	path = 
-[mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
-	trustExitCode = true
 [include]
   path = ~/.gitconfig_local
+[init]
+	templatedir = ~/.gittemplates

@@ -29,6 +29,7 @@ antigen bundle sudo # Easily prefix your current or previous commands with sudo 
 antigen bundle tmux
 antigen bundle djui/alias-tips # A Zsh plugin to help remembering those shell aliases and Git aliases you once defined.
 antigen bundle gitignore # This plugin enables you the use of gitignore.io from the command line. You need an active internet connection.
+antigen bundle zsh-users/zsh-completions
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
     antigen bundle osx
