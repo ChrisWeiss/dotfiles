@@ -128,3 +128,8 @@ fbr() {
 
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
+# for jenv
+if [[ -f $HOME/.jenv ]]; then
+  export PATH="$HOME/.jenv/bin:$PATH"
+  eval "$(jenv init -)"
+;fi

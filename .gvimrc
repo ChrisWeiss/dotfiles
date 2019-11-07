@@ -1,1 +1,1 @@
-set guifont=Ubuntu\ Mono\ derivative\ Powerline:h11
+set guifont=Fira\ Code:h14
