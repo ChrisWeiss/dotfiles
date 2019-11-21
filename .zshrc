@@ -1,6 +1,7 @@
 export ANTIGEN_LOG=~/antigen_error.log
 ZSH=$HOME/.oh-my-zsh
-source ~/.antigen.zsh
+[ -f $HOME/.antigen.zsh ] && source ~/.antigen.zsh
+[ -f /usr/local/share/antigen/antigen.zsh ] && source /usr/local/share/antigen/antigen.zsh
 antigen use oh-my-zsh
 
 antigen theme https://github.com/denysdovhan/spaceship-zsh-theme spaceship
@@ -133,3 +134,6 @@ if [[ -f $HOME/.jenv ]]; then
   export PATH="$HOME/.jenv/bin:$PATH"
   eval "$(jenv init -)"
 ;fi
+
+# Function to run a container locally
+dl () { docker run -it --volume `pwd`:`pwd` --workdir `pwd` "$1" /bin/bash }
