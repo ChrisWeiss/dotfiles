@@ -4,9 +4,12 @@ ZSH=$HOME/.oh-my-zsh
 [ -f /usr/local/share/antigen/antigen.zsh ] && source /usr/local/share/antigen/antigen.zsh
 antigen use oh-my-zsh
 
-antigen theme https://github.com/denysdovhan/spaceship-zsh-theme spaceship
+#antigen theme https://github.com/denysdovhan/spaceship-zsh-theme spaceship
 #POWERLEVEL10K_COLOR_SCHEME='light'
 ##antigen theme romkatv/powerlevel10k
+
+antigen bundle mafredri/zsh-async
+antigen bundle sindresorhus/pure
 
 antigen bundle supercrabtree/k
 antigen bundle docker
