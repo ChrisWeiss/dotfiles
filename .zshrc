@@ -1,38 +1,29 @@
-export ANTIGEN_LOG=~/antigen_error.log
 ZSH=$HOME/.oh-my-zsh
+
+export ANTIGEN_LOG=~/antigen_error.log
 [ -f $HOME/.antigen.zsh ] && source ~/.antigen.zsh
 [ -f /usr/local/share/antigen/antigen.zsh ] && source /usr/local/share/antigen/antigen.zsh
 antigen use oh-my-zsh
-
-#antigen theme https://github.com/denysdovhan/spaceship-zsh-theme spaceship
-#POWERLEVEL10K_COLOR_SCHEME='light'
-##antigen theme romkatv/powerlevel10k
-
-antigen bundle mafredri/zsh-async
-antigen bundle sindresorhus/pure
-
-antigen bundle supercrabtree/k
+antigen bundle mafredri/zsh-async                                                         # Needed by sindresorhus/pure
+antigen bundle sindresorhus/pure                                                          # Pretty, minimal and fast ZSH prompt
 antigen bundle docker
 antigen bundle git
 antigen bundle per-directory-history
 antigen bundle vagrant
 antigen bundle zsh-users/zsh-autosuggestions
 antigen bundle vi-mode
-antigen bundle autojump
-antigen bundle history
+antigen bundle autojump                                                                     # aliases: 'j <string>'' to change to matching dir in history
+antigen bundle history                                                                      # aliases: 'h' for history, 'hsi' for grepping history
 antigen bundle pip
 antigen bundle python
 antigen bundle zdharma/fast-syntax-highlighting
 antigen bundle zsh-users/zsh-history-substring-search ./zsh-history-substring-search.zsh
-antigen bundle extract
-antigen bundle sudo # Esc twice to add sudo in front of any command
-antigen bundle command-not-found # This plugin uses the command-not-found package for zsh to provide suggested packages to be installed if a command cannot be found.
+antigen bundle extract                                                                      # aliases: 'x' for extract automatically using appropriate decompressor tool
+antigen bundle command-not-found                                                            # Suggest packages for 'command not found'
 antigen bundle docker-compose
-antigen bundle fzf
-antigen bundle sudo # Easily prefix your current or previous commands with sudo by pressing esc twice
+antigen bundle fzf                                                                          # Fuzzy File Finder - Much substring matching
 antigen bundle tmux
-antigen bundle djui/alias-tips # A Zsh plugin to help remembering those shell aliases and Git aliases you once defined.
-antigen bundle gitignore # This plugin enables you the use of gitignore.io from the command line. You need an active internet connection.
+antigen bundle djui/alias-tips                                                              # A Zsh plugin to help remembering those shell aliases and Git aliases you once defined.
 antigen bundle zsh-users/zsh-completions
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
@@ -58,15 +49,17 @@ alias mv='mv -iv'
 alias rmdir='rmdir -v'
 alias ln='ln -v'
 
-alias vim='nvim'
-export VISUAL='nvim -f'
-export EDITOR='mvim -f'
+[ -x "$(command -v nvim)" ] && alias vim='nvim' && export VISUAL='nvim -f' && export EDITOR='mvim -f'
 
-export PATH=/usr/local/sbin:/usr/local/bin:$PATH
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:$PATH
 
 if [[ $OSTYPE == darwin* ]]; then
 
-    test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+    [ -f "${HOME}/.iterm2_shell_integration.zsh" ] && source "${HOME}/.iterm2_shell_integration.zsh"
+
+    # Fix for OS-X built-in CURL not supporting SSL correctly. Use Brew's CURL if it exists.
+    # https://github.com/Homebrew/homebrew-cask/issues/83481
+    [ -f "/usr/local/opt/curl/bin/curl" ] && export PATH="/usr/local/opt/curl/bin:$PATH" && export HOMEBREW_FORCE_BREWED_CURL=1
 
     [[ -s `brew --prefix`/etc/autojump.sh ]] && . `brew --prefix`/etc/autojump.sh
 
@@ -92,10 +85,10 @@ if [[ $OSTYPE == linux-gnu ]]; then
 [ -f ~/.zshrc-local ] && source ~/.zshrc-local
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
-[ -f ~/.password ] && export ANSIBLE_VAULT_PASSWORD_FILE=/Users/cweiss/.password
+[[ -f ~/.password && -x "$(command -v ansible)" ]] && export ANSIBLE_VAULT_PASSWORD_FILE=~/.password
 
 # Ansible human-readable stdout/stderr results display
-export ANSIBLE_STDOUT_CALLBACK=debug
+[ -x "$(command -v ansible)" ] && export ANSIBLE_STDOUT_CALLBACK=debug
 
 # SDKMan
 [ -f $HOME/.sdkman/bin/sdkman-init.sh ] && source $HOME/.sdkman/bin/sdkman-init.sh
@@ -106,37 +99,35 @@ export ANSIBLE_STDOUT_CALLBACK=debug
 # bat
 [ -f /usr/local/bin/bat ] && alias cat='bat'
 
-if [[ -f ~/.fzf.zsh ]]; then
-source ~/.fzf.zsh
-export FZF_DEFAULT_OPTS='--height 10% --layout=reverse'
+# FZF setup
+if [[ -x "$(command -v fzf)" ]]; then
+  [ -f ~/.fzf.zsh ] && export FZF_DEFAULT_OPTS='--height 10% --layout=reverse' && source ~/.fzf.zsh
 
-# f [FUZZY PATTERN] - Open the selected file with the default editor
-#   - Bypass fuzzy finder if there's only one match (--select-1)
-#   - Exit if there's no match (--exit-0)
-f() {
-  local files
-  IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
-  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
-}
+  # f [FUZZY PATTERN] - Open the selected file with the default editor
+  #   - Bypass fuzzy finder if there's only one match (--select-1)
+  #   - Exit if there's no match (--exit-0)
+  f() {
+    local files
+    IFS=$'\n' files=($(fzf-tmux --query="$1" --multi --select-1 --exit-0))
+    [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+  }
 
-fbr() {
-  local branches branch
-  branches=$(git branch -vv) &&
-  branch=$(echo "$branches" | fzf +m) &&
-  git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
-}
+  fbr() {
+    local branches branch
+    branches=$(git branch -vv) &&
+    branch=$(echo "$branches" | fzf +m) &&
+    git checkout $(echo "$branch" | awk '{print $1}' | sed "s/.* //")
+  }
 ;fi
 
 # TMUX Setup
 [[ -d ~/.tmux && ! -d ~/.tmux/plugins/tpm ]] && git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
-export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+# Add yarn to path if exists
+[ -d /.yarn/bin ] && export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
 # for jenv
-if [[ -f $HOME/.jenv ]]; then
-  export PATH="$HOME/.jenv/bin:$PATH"
-  eval "$(jenv init -)"
-;fi
+[ -f $HOME/.jenv ] && export PATH="$HOME/.jenv/bin:$PATH" && eval "$(jenv init -)"
 
 # Function to run a container locally
-dl () { docker run -it --volume `pwd`:`pwd` --workdir `pwd` "$1" /bin/bash }
+[ -x "$(command -v docker)" ] && dl () { docker run -it --volume `pwd`:`pwd` --workdir `pwd` "$1" /bin/bash }
