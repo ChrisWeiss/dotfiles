@@ -3,6 +3,7 @@ ZSH=$HOME/.oh-my-zsh
 export ANTIGEN_LOG=~/antigen_error.log
 [ -f $HOME/.antigen.zsh ] && source ~/.antigen.zsh
 [ -f /usr/local/share/antigen/antigen.zsh ] && source /usr/local/share/antigen/antigen.zsh
+[ -f /opt/homebrew/share/antigen/antigen.zsh ] && source /opt/homebrew/share/antigen/antigen.zsh
 antigen use oh-my-zsh
 antigen bundle mafredri/zsh-async                                                         # Needed by sindresorhus/pure
 antigen bundle sindresorhus/pure                                                          # Pretty, minimal and fast ZSH prompt
